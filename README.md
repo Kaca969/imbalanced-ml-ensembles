@@ -1,108 +1,32 @@
-# Imbalanced ML Ensembles
-
+Imbalanced ML Ensembles
 Predictive modeling on imbalanced clinical tabular data using ensemble learning and class-balancing strategies.
+Overview
+This project looks at how well ensemble models handle classification when the data is heavily imbalanced — which is pretty common in clinical datasets. The core goal is to push minority class detection beyond what simple accuracy can tell you, using a combination of resampling, ensemble methods, and proper evaluation.
+Methodology
+Data Preparation
+The pipeline starts with some exploratory analysis and correlation visualization to get a feel for the data. From there: stratified train/test splitting to preserve class ratios, standardization with StandardScaler, and manual oversampling of the minority class on the training set only (to avoid any data leakage).
+Models
+Three classifiers were implemented and compared:
 
----
+Random Forest — solid baseline with built-in feature importance
+AdaBoost — focuses iteratively on harder-to-classify samples
+Stacking Classifier — Random Forest and SVM as base learners, with Logistic Regression as the meta-learner
 
-## Overview
+All models were tuned using GridSearchCV.
+Evaluation
+Given the class imbalance, accuracy alone doesn't mean much. The evaluation leans on F1-score and ROC-AUC as the primary metrics, alongside precision, recall, confusion matrices, and ROC curves for a fuller picture.
+Results
+The Stacking classifier came out on top:
 
-This project investigates classification performance under class imbalance using ensemble models and robust evaluation metrics.
+Accuracy ≈ 0.83
+F1-score ≈ 0.72
+ROC-AUC ≈ 0.89–0.90
 
-The primary objective is to improve minority class detection beyond simple accuracy by applying:
-
-- Resampling techniques
-- Ensemble learning methods
-- Hyperparameter optimization
-- Feature importance analysis
-
----
-
-## Methodology
-
-### Data Preparation
-
-- Exploratory Data Analysis (EDA)
-- Correlation matrix visualization
-- Stratified train/test split
-- Standardization using StandardScaler
-- Manual oversampling of the minority class (training set only)
-
-### Models Implemented
-
-- Random Forest
-- AdaBoost
-- Stacking Classifier
-  - Base learners: Random Forest + SVM
-  - Meta-learner: Logistic Regression
-
-Hyperparameters were optimized using GridSearchCV.
-
----
-
-## Evaluation Metrics
-
-Model performance was assessed using:
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- ROC-AUC
-- Confusion Matrix
-- ROC Curves
-
-Special emphasis was placed on F1-score and ROC-AUC due to class imbalance.
-
----
-
-## Results (Test Set)
-
-Best performance achieved by the Stacking classifier:
-
-- Accuracy ≈ 0.83
-- F1-score ≈ 0.72
-- ROC-AUC ≈ 0.89–0.90
-
-Feature selection preserved competitive performance (F1 ≈ 0.70), demonstrating model robustness under dimensionality reduction.
-
----
-
-## Feature Analysis
-
-- Feature importance computed via Random Forest
-- Top features visualized
-- Feature selection performed using SelectFromModel
-- Comparative evaluation between full feature set and reduced feature set
-
----
-
-## Dataset
-
-Heart Failure Clinical Records Dataset
-
-Expected location:
-
-data/heart_failure_clinical_records_dataset.csv
-
-The dataset is not included in this repository.
-
----
-
-## Installation
-
-pip install -r requirements.txt
-
----
-
-## Run
-
+Feature selection (via SelectFromModel based on Random Forest importances) brought the F1 down only slightly to around 0.70, which suggests the model isn't overly dependent on any single feature — a good sign for generalization.
+Dataset
+Heart Failure Clinical Records Dataset — expected at data/heart_failure_clinical_records_dataset.csv. Not included in the repo.
+Setup
+bashpip install -r requirements.txt
 python train_imbalanced_ensembles.py
-
----
-
-## Key Focus Areas
-
-- Imbalanced classification
-- Ensemble learning
-- Robust evaluation strategies
-- Practical machine learning workflow
+Key Takeaways
+The project works through a fairly complete ML workflow — from handling messy class distributions to picking the right metrics and squeezing performance out of stacked ensembles. It's a good reference for anyone dealing with real-world clinical data where the minority class is exactly the one you can't afford to miss.
