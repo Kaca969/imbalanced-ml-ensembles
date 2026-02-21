@@ -55,6 +55,7 @@ The dataset is not included in the repository.
 Setup
 pip install -r requirements.txt
 python train_imbalanced_ensembles.py
+
 Key Takeaways
 
 This project demonstrates a complete machine learning pipeline tailored for imbalanced clinical data. It highlights the importance of appropriate metrics, careful handling of class distribution, and the performance benefits of ensemble and stacking methods. The workflow serves as a practical reference for real-world classification problems where detecting the minority class is essential.
